@@ -1,0 +1,1 @@
+# pagcoinbtc-minibolt-semiauto-v0.3
