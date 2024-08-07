@@ -51,7 +51,7 @@ sudo ufw logging off
 sudo ufw allow 22/tcp comment 'allow SSH from anywhere'
 
 # Habilita o ufw
-sudo ufw enable
+echo "y" | sudo ufw enable
 
 # Instala o nginx-full
 sudo apt install -y nginx-full
@@ -137,8 +137,8 @@ sudo install -m 0755 -o root -g root -t /usr/local/bin lnd-linux-amd64-v$VERSION
 sudo rm -r lnd-linux-amd64-v$VERSION-beta lnd-linux-amd64-v$VERSION-beta.tar.gz manifest-roasbeef-v$VERSION-beta.sig manifest-roasbeef-v$VERSION-beta.sig.ots manifest-v$VERSION-beta.txt manifest-v$VERSION-beta.txt.ots
 
 # Cria links simbólicos
-ln -s /data/lnd /home/admin/.lnd
-ln -s /data/bitcoin /home/admin/.bitcoin
+sudo ln -s /data/lnd /home/admin/.lnd
+sudo ln -s /data/bitcoin /home/admin/.bitcoin
 
 # Lista os arquivos e diretórios com detalhes
 ls -la
@@ -158,10 +158,10 @@ while true; do
 done
 
 # Salva a senha no arquivo password.txt
-echo "$password" > /data/admin/password.txt
+sudo bash -c "echo '$password' > /data/admin/password.txt"
 
 # Define permissões adequadas para o arquivo de senha
-chmod 600 /data/admin/password.txt
+sudo chmod 600 /data/admin/password.txt
 
 # Solicita ao usuário as variáveis necessárias
 read -p "Digite o alias: " alias
@@ -173,7 +173,7 @@ read -p "Digite o bitcoind.zmqpubrawblock: " bitcoind_zmqpubrawblock
 read -p "Digite o bitcoind.zmqpubrawtx: " bitcoind_zmqpubrawtx
 
 # Cria o arquivo de configuração lnd.conf
-cat << EOF > /data/lnd/lnd.conf
+sudo bash -c "cat << EOF > /data/lnd/lnd.conf
 # MiniBolt: lnd configuration
 # /data/admin/lnd.conf
 
@@ -275,7 +275,7 @@ db.bolt.auto-compact=true
 tor.active=true
 tor.v3=true
 tor.streamisolation=true
-EOF
+EOF"
 
 echo "Configuração concluída com sucesso!"
 
