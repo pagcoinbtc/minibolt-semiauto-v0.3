@@ -35,11 +35,11 @@ else
     echo "Erro: Tor não está ouvindo nas portas corretas."
 fi
 
-# Cria o diretório /data
-sudo mkdir /data
+# Cria o diretório /data/admin
+sudo mkdir -p /data/admin
 
 # Muda a propriedade do diretório /data para o usuário admin
-sudo chown admin:admin /data
+sudo chown -R admin:admin /data
 
 # Modifica o arquivo /etc/default/ufw para desativar o IPv6
 sudo sed -i 's/^IPV6=yes/IPV6=no/' /etc/default/ufw
@@ -54,7 +54,7 @@ sudo ufw allow 22/tcp comment 'allow SSH from anywhere'
 sudo ufw enable
 
 # Instala o nginx-full
-sudo apt install nginx-full
+sudo apt install -y nginx-full
 
 # Gera o certificado autoassinado e a chave privada
 sudo openssl req -x509 -nodes -newkey rsa:4096 -keyout /etc/ssl/private/nginx-selfsigned.key -out /etc/ssl/certs/nginx-selfsigned.crt -subj "/CN=localhost" -days 3650
@@ -156,8 +156,6 @@ while true; do
         echo "A senha deve ter pelo menos 8 caracteres. Tente novamente."
     fi
 done
-
-nano/admin/password.txt
 
 # Salva a senha no arquivo password.txt
 echo "$password" > /data/admin/password.txt
